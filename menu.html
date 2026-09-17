@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Meeple's Cafe — Menu</title>
+  <style>
+    :root {
+      --ink: #29251f;
+      --cream: #f7f1e5;
+      --paper: #fffaf0;
+      --accent: #8b5e3c;
+      --accent-light: #d9c1a8;
+      --muted: #71695f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.5;
+    }
+    .menu {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 60px 70px;
+      background: var(--paper);
+      box-shadow: 0 8px 30px rgba(41, 37, 31, 0.12);
+    }
+    header { text-align: center; margin-bottom: 50px; }
+    .logo {
+      font-size: 2rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      line-height: 1;
+      font-weight: normal;
+      letter-spacing: -.03em;
+    }
+    .tagline {
+      margin: 18px 0 0;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+    .divider {
+      width: 80px;
+      height: 2px;
+      margin: 25px auto 0;
+      background: var(--accent);
+    }
+    section { margin-top: 42px; }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+    .section-title::before,
+    .section-title::after {
+      content: "";
+      height: 1px;
+      background: var(--accent-light);
+      flex: 1;
+    }
+    h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    h3 {
+      margin: 30px 0 12px;
+      font-size: 1.35rem;
+      font-weight: normal;
+      font-style: italic;
+      color: var(--ink);
+    }
+    h3:first-of-type { margin-top: 0; }
+    .item { margin: 0 0 18px; }
+    .item-name {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+    .description {
+      display: block;
+      color: var(--muted);
+      font-size: .95rem;
+      padding-left: 16px;
+    }
+    .drinks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 35px;
+      align-items: start;
+    }
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 35px;
+      align-items: start;
+    }
+    footer {
+      text-align: center;
+      margin-top: 55px;
+      padding-top: 25px;
+      border-top: 1px solid var(--accent-light);
+      color: var(--muted);
+      font-size: .85rem;
+      font-style: italic;
+    }
+    @media (max-width: 650px) {
+      .menu {
+        margin: 0;
+        padding: 40px 25px;
+        box-shadow: none;
+      }
+      .drinks,
+      .choices {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .section-title { gap: 10px; }
+      h2 { font-size: 1rem; }
+    }
+    @media print {
+      body { background: white; }
+      .menu {
+        margin: 0;
+        max-width: none;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="menu">
+    <header>
+      <div class="logo">The Meeple's Cafe</div>
+      <p class="tagline">Food for the Body, Drink for the Soul</p>
+      <div class="divider"></div>
+    </header>
+
+    <section>
+      <div class="section-title"><h2>Drinks</h2></div>
+      
+      <div class="drinks">
+        <div>
+          <h3>Espresso</h3>
+          <div class="item">
+            <span class="item-name">Flat White</span>
+            <span class="description">2 oz espresso, 4 oz steamed milk</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Latte</span>
+            <span class="description">2 oz espresso, 6 oz steamed milk</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Iced Latte</span>
+            <span class="description">2 oz espresso, 6 oz frothed milk, ice cubes</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Aerocano</span>
+            <span class="description">2 oz espresso, 4 oz water, steamed together</span>
+          </div>
+
+          <h3>Brewed</h3>
+          <div class="item">
+            <span class="item-name">Drip Coffee</span>
+            <span class="description">Sermon by Verve, brewed in the OXO</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Pour Over</span>
+            <span class="description">Fancy beans, brewed in the Hario for 3 minutes</span>
+          </div>
+        </div>
+        
+        <div>
+          <h3>Matcha</h3>
+          <div class="item">
+            <span class="item-name">Matchacano</span>
+            <span class="description">2g matcha, 6 oz water, steamed together in a mug</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Guava Matcha</span>
+            <span class="description">Matcha, guava spread, milk</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Apricot Matcha</span>
+            <span class="description">Matcha, apricot spread, milk</span>
+          </div>
+
+          <h3>Specials</h3>
+          <div class="item">
+            <span class="item-name">Fridge Cigarette</span>
+            <span class="description">Diet Coke, espresso, vanilla cold foam</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title"><h2>Choices</h2></div>
+
+      <div class="choices">
+        <div>
+          <h3>Syrups</h3>
+          <div class="item">
+            <span class="item-name">Fig Leaf</span>
+            <span class="description">Roasted herbal coconut</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Creme Brulee</span>
+            <span class="description">Sticky hard caramel</span>
+          </div>
+        </div>
+
+        <div>
+          <h3>Beans</h3>
+          <div class="item">
+            <span class="item-name">Classic</span>
+            <span class="description">Homestar by YES PLZ</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Decaf</span>
+            <span class="description">Colombia Sugar Cane by Chromatic Coffee. Toffee &amp; Biscuit</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Fancy</span>
+            <span class="description">Granja Paraiso 92 by Moonwake. Starfruit, Pink Starburst, POG Juice</span>
+          </div>
+        </div>
+
+        <div>
+          <h3>Milks</h3>
+          <div class="item">
+            <span class="item-name">Whole Milk</span>
+            <span class="description">A2</span>
+          </div>
+          <div class="item">
+            <span class="item-name">Oatmilk</span>
+            <span class="description">Califia Farms</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--<footer>The Meeple's Cafe</footer>-->
+  </main>
+</body>
+</html>
