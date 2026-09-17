@@ -27,8 +27,13 @@
       padding: 60px 70px;
       background: var(--paper);
       box-shadow: 0 8px 30px rgba(41, 37, 31, 0.12);
+      /* Added position relative so the absolute QR code anchors to this container */
+      position: relative; 
     }
-    header { text-align: center; margin-bottom: 50px; }
+    header { 
+      text-align: center; 
+      margin-bottom: 50px; 
+    }
     .logo {
       font-size: 2rem;
       letter-spacing: .3em;
@@ -105,6 +110,17 @@
       gap: 35px;
       align-items: start;
     }
+    .qr-code {
+      display: block;
+      width: 90px;
+      height: 90px;
+      border-radius: 4px;
+      /* Anchors the QR code to the bottom left of the .menu container */
+      position: absolute;
+      bottom: 60px;
+      left: 60px;
+      filter: sepia(87%);
+    }
     .choices {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -133,6 +149,12 @@
       }
       .section-title { gap: 10px; }
       h2 { font-size: 1rem; }
+      .qr-code {
+        bottom: 15px;
+        left: 15px;
+        width: 70px;
+        height: 70px;
+      }
     }
     @media print {
       body { background: white; }
@@ -256,7 +278,8 @@
       </div>
     </section>
 
-    <!--<footer>The Meeple's Cafe</footer>-->
+    <!-- QR Code placed inside main so it positions relative to the menu card -->
+    <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://jetsu42.github.io/menu/" alt="QR Code for The Meeple's Cafe Menu">
   </main>
 </body>
 </html>
