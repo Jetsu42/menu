@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Meeple's Cafe — Menu</title>
+  <title>The Meeple's Cafe — Order App</title>
   <style>
     :root {
       --ink: #29251f;
@@ -28,13 +28,10 @@
       padding: 60px 70px;
       background: var(--paper);
       box-shadow: 0 8px 30px rgba(41, 37, 31, 0.12);
-      /* Added position relative so the absolute QR code anchors to this container */
       position: relative; 
+      border-radius: 8px;
     }
-    header { 
-      text-align: center; 
-      margin-bottom: 50px; 
-    }
+    header { text-align: center; margin-bottom: 50px; }
     .logo {
       font-size: 2rem;
       letter-spacing: .3em;
@@ -55,12 +52,6 @@
       font-style: italic;
       color: var(--muted);
       letter-spacing: .04em;
-    }
-    .divider {
-      width: 80px;
-      height: 2px;
-      margin: 25px auto 0;
-      background: var(--accent);
     }
     section { margin-top: 42px; }
     .section-title {
@@ -92,7 +83,21 @@
       color: var(--ink);
     }
     h3:first-of-type { margin-top: 0; }
+    
     .item { margin: 0 0 18px; }
+    .interactive-item {
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .interactive-item:hover {
+      background: #ffffff;
+      border-color: var(--accent-light);
+      box-shadow: 0 4px 12px rgba(41, 37, 31, 0.08);
+      transform: translateY(-2px);
+    }
     .item-name {
       display: block;
       font-size: 1.05rem;
@@ -128,6 +133,123 @@
       gap: 35px;
       align-items: start;
     }
+    
+    #cart-section {
+      margin-top: 50px;
+      padding: 25px;
+      background: var(--cream);
+      border-radius: 8px;
+      border: 1px dashed var(--accent);
+      display: none;
+    }
+    #cart-items {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    #cart-items li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--accent-light);
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    #cart-items li:last-child { border-bottom: none; }
+    .cart-details {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+      display: block;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(41, 37, 31, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      backdrop-filter: blur(4px);
+    }
+    .modal {
+      background: var(--paper);
+      padding: 40px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .modal h2 { 
+      margin: 0 0 10px 0; 
+      font-size: 1.5rem; 
+      line-height: 1.2;
+      overflow-wrap: break-word; /* Prevents long titles from overflowing */
+      word-wrap: break-word;
+    }
+    .modal p.desc {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 25px;
+      font-style: italic;
+    }
+    .modal label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: var(--ink);
+    }
+    .modal select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      background: #fff;
+      border: 1px solid var(--accent-light);
+      font-family: inherit;
+      font-size: 0.9rem;
+      border-radius: 4px;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    button {
+      flex: 1;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: var(--paper); }
+    .btn-primary:hover { background: #6b472c; }
+    .btn-secondary { background: var(--accent-light); color: var(--ink); }
+    .btn-secondary:hover { background: #c6ab90; }
+
+    /* Default state (no ?menu) */
+    .qr-code { 
+      display: none; 
+    }
+    /* Hides the "Options" section, which is the 2nd section in your HTML */
+    section:nth-of-type(2) { 
+      display: none; 
+    }
+
+    /* ?menu state */
+    body.menu .description { 
+      display: none; 
+    }
+    body.menu .qr-code { 
+      display: block; 
+    }
+    body.menu section:nth-of-type(2) { 
+      display: block; 
+    }
+
     footer {
       text-align: center;
       margin-top: 55px;
@@ -137,32 +259,17 @@
       font-size: .85rem;
       font-style: italic;
     }
+
     @media (max-width: 650px) {
       .menu {
         margin: 0;
         padding: 40px 25px;
         box-shadow: none;
+        border-radius: 0;
       }
-      .drinks,
-      .choices {
+      .drinks, .choices {
         grid-template-columns: 1fr;
         gap: 0;
-      }
-      .section-title { gap: 10px; }
-      h2 { font-size: 1rem; }
-      .qr-code {
-        bottom: 15px;
-        left: 15px;
-        width: 70px;
-        height: 70px;
-      }
-    }
-    @media print {
-      body { background: white; }
-      .menu {
-        margin: 0;
-        max-width: none;
-        box-shadow: none;
       }
     }
   </style>
@@ -172,7 +279,6 @@
     <header>
       <div class="logo">Cafe Leek</div>
       <p class="tagline">A Kikoen Coffee Corner</p>
-      <!--<div class="divider"></div>-->
     </header>
 
     <section>
@@ -181,29 +287,26 @@
       <div class="drinks">
         <div>
           <h3>Espresso</h3>
-          <div class="item">
+          <!-- Params: name, description, milkType ('none', 'required', 'optional'), defaultMilk, hasBeans, hasSyrup, hasTempChoice -->
+          <div class="item interactive-item" onclick="openModal('Flat White', 'espresso, milk - 6 oz - Hot', 'required', 'Whole Milk (A2)', true, true, false)">
             <span class="item-name">Flat White</span>
-            <span class="description">espresso, milk - 6 oz</span>
+            <span class="description">espresso, milk - 6 oz - Hot</span>
           </div>
-          <div class="item">
+          <div class="item interactive-item" onclick="openModal('Latte', 'espresso, milk - 8 oz', 'required', 'Whole Milk (A2)', true, true, true)">
             <span class="item-name">Latte</span>
             <span class="description">espresso, milk - 8 oz</span>
           </div>
-          <div class="item">
-            <span class="item-name">Iced Latte</span>
-            <span class="description">espresso, milk, ice cubes - 8 oz</span>
-          </div>
-          <div class="item">
+          <div class="item interactive-item" onclick="openModal('Aerocano', 'espresso, water - 6 oz', 'none', '', true, true, true)">
             <span class="item-name">Aerocano</span>
             <span class="description">espresso, water - 6 oz</span>
           </div>
 
           <h3>Brewed</h3>
-          <div class="item">
+          <div class="item interactive-item" onclick="openModal('Drip Coffee', 'brewed in the OXO - 8 oz', 'optional', 'None', false, true, true)">
             <span class="item-name">Drip Coffee</span>
             <span class="description">brewed in the OXO - 8 oz</span>
           </div>
-          <div class="item">
+          <div class="item interactive-item" onclick="openModal('Pour Over', 'brewed in the Hario - 8 oz', 'optional', 'None', false, true, true)">
             <span class="item-name">Pour Over</span>
             <span class="description">brewed in the Hario - 8 oz</span>
           </div>
@@ -211,77 +314,246 @@
         
         <div>
           <h3>Matcha</h3>
-          <div class="item">
+          <div class="item interactive-item" onclick="openModal('Matchacano', 'matcha, water - 8 oz', 'none', '', false, false, true)">
             <span class="item-name">Matchacano</span>
             <span class="description">matcha, water - 8 oz</span>
           </div>
-          <div class="item">
-            <span class="item-name">Guava Matcha</span>
-            <span class="description">Matcha, guava spread, milk - 8 oz</span>
+          <!-- Matcha drinks with milk now default to Oatmilk -->
+          <div class="item interactive-item" onclick="openModal('Matcha Latte', 'matcha, milk - 8 oz - Iced', 'required', 'Oatmilk (Califia)', false, false, false)">
+            <span class="item-name">Matcha Latte</span>
+            <span class="description">matcha, milk - 8 oz - Iced</span>
           </div>
-          <div class="item">
+          <div class="item interactive-item" onclick="openModal('Guava Matcha', 'Matcha, guava spread, milk - 8 oz - Iced', 'required', 'Oatmilk (Califia)', false, false, false)">
+            <span class="item-name">Guava Matcha</span>
+            <span class="description">Matcha, guava spread, milk - 8 oz - Iced</span>
+          </div>
+          <div class="item interactive-item" onclick="openModal('Apricot Matcha', 'Matcha, apricot spread, milk - 8 oz - Iced', 'required', 'Oatmilk (Califia)', false, false, false)">
             <span class="item-name">Apricot Matcha</span>
-            <span class="description">Matcha, apricot spread, milk - 8 oz</span>
+            <span class="description">Matcha, apricot spread, milk - 8 oz - Iced</span>
           </div>
 
           <h3>Specials</h3>
-          <div class="item">
+          <div class="item interactive-item" onclick="openModal('Fridge Cigarette', 'Diet Coke, espresso, vanilla cold foam - Iced', 'none', '', true, false, false)">
             <span class="item-name">Fridge Cigarette</span>
-            <span class="description">Diet Coke, espresso, vanilla cold foam</span>
+            <span class="description">Diet Coke, espresso, vanilla cold foam - Iced</span>
           </div>
         </div>
       </div>
     </section>
 
     <section>
-      <div class="section-title"><h2>Choices</h2></div>
-
+      <div class="section-title"><h2>Options</h2></div>
       <div class="choices">
         <div>
           <h3>Milks</h3>
-          <div class="item">
-            <span class="item-name">Whole Milk</span>
-            <span class="description">A2</span>
-          </div>
-          <div class="item">
-            <span class="item-name">Oatmilk</span>
-            <span class="description">Califia Farms</span>
-          </div>
+          <div class="item"><span class="item-name">Whole Milk</span><span class="description">A2</span></div>
+          <div class="item"><span class="item-name">Oatmilk</span><span class="description">Califia Farms</span></div>
         </div>
-
         <div>
           <h3>Beans</h3>
-          <div class="item">
-            <span class="item-name">Classic</span>
-            <span class="description">From YES PLZ</span>
-          </div>
-          <div class="item">
-            <span class="item-name">Decaf</span>
-            <span class="description">From Chromatic<br/>Toffee &amp; Biscuit</span>
-          </div>
-          <div class="item">
-            <span class="item-name">Fancy</span>
-            <span class="description">From Moonwake<br/>Starfruit, Pink Starburst, POG Juice</span>
-          </div>
+          <div class="item"><span class="item-name">Classic</span><span class="description">From YES PLZ</span></div>
+          <div class="item"><span class="item-name">Decaf</span><span class="description">From Chromatic</span></div>
+          <div class="item"><span class="item-name">Fancy</span><span class="description">From Moonwake</span></div>
         </div>
-
         <div>
           <h3>Syrups</h3>
-          <div class="item">
-            <span class="item-name">Fig Leaf</span>
-            <span class="description">Roasted herbal coconut</span>
-          </div>
-          <div class="item">
-            <span class="item-name">Creme Brulee</span>
-            <span class="description">Sticky hard caramel</span>
-          </div>
+          <div class="item"><span class="item-name">Fig Leaf</span><span class="description">Roasted herbal coconut</span></div>
+          <div class="item"><span class="item-name">Creme Brulee</span><span class="description">Sticky hard caramel</span></div>
         </div>
       </div>
     </section>
+
+    <!-- Dynamic Cart Section -->
+    <section id="cart-section">
+      <div class="section-title"><h2>Your Order</h2></div>
+      <ul id="cart-items">
+        <!-- Order items injected here via JS -->
+      </ul>
+      <button class="btn-primary" style="margin-top: 20px; width: 100%;" onclick="copyOrder()">Copy to Clipboard</button>
+    </section>
+
+  <!--
+    <footer>
+      <p>Thank you for visiting Cafe Leek. Please pay at the counter.</p>
+    </footer>
+  -->
 
     <!-- QR Code placed inside main so it positions relative to the menu card -->
     <!--<img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://jetsu42.github.io/menu/" alt="QR Code for The Meeple's Cafe Menu">-->
     <img class="qr-code" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABIElEQVRIib2Wsa3DMAxEKbhQqRE0ihcL7Hgzj6IRVKowcjmS/38Y+CkjEmr8XPhAHY8W+VA7WOcC5JZG1Yfxdfbgd8pJzNejPkVSECu4imqReox6AEcku2QFXhLORNZ/WiYz673iSi33+5jL3GtkQ7Xc/TeXeS04TcW95jJquQrQBXjmtvHEsKWvSxd6LTeq2OxEMB9os9uWcaDtI4TtDLC+XtbzrAZPMUwbUPBbarfvswcnl6HROb9/9xvDREPS5jdTjfY5hqkWyytYA1IUE98LXraSIpiXxRRVJDSJYZ6TPLb33WsRzPeCFFCCaXGvzWe2B2Eus96/IpnnpOaV/V/FsXJm3QseWSFMfva+eq2yEymGudfs/4parP0h7EO9Acnlqv8WQT+JAAAAAElFTkSuQmCC" alt="QR Code for The Meeple's Cafe Menu">
   </main>
+
+  <!-- Ordering Modal -->
+  <div class="modal-overlay" id="order-modal">
+    <div class="modal">
+      <h2 id="modal-title">Drink Name</h2>
+      <p class="desc" id="modal-desc">Drink description goes here.</p>
+      
+      <div id="temp-group">
+        <label for="temp-choice">Temperature</label>
+        <select id="temp-choice">
+          <option value="Hot">Hot</option>
+          <option value="Iced">Iced</option>
+        </select>
+      </div>
+
+      <div id="milk-group">
+        <label for="milk-choice">Milk Choice</label>
+        <select id="milk-choice">
+          <!-- Populated dynamically based on required vs optional -->
+        </select>
+      </div>
+
+      <div id="bean-group">
+        <label for="bean-choice">Coffee Beans</label>
+        <select id="bean-choice">
+          <option value="Classic (YES PLZ)">Classic (YES PLZ)</option>
+          <option value="Decaf (Chromatic)">Decaf (Chromatic)</option>
+          <option value="Fancy (Moonwake)">Fancy (Moonwake)</option>
+        </select>
+      </div>
+
+      <div id="syrup-group">
+        <label for="syrup-choice">Add Syrup</label>
+        <select id="syrup-choice">
+          <option value="None">None</option>
+          <option value="Fig Leaf">Fig Leaf</option>
+          <option value="Creme Brulee">Creme Brulee</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" onclick="addToCart()">Add to Order</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add .menu class to body if ?menu is in the URL
+    if (new URLSearchParams(window.location.search).has('menu')) {
+      document.body.classList.add('menu');
+    }
+    
+    let currentItem = '';
+    let currentMilkType = 'none';
+    let currentNeedsBeans = false;
+    let currentNeedsSyrup = false;
+    let currentHasTempChoice = false;
+
+    function openModal(name, description, milkType, defaultMilk, hasBeans, hasSyrup, hasTempChoice) {
+      currentItem = name;
+      currentMilkType = milkType;
+      currentNeedsBeans = hasBeans;
+      currentNeedsSyrup = hasSyrup;
+      currentHasTempChoice = hasTempChoice;
+
+      document.getElementById('modal-title').innerText = name;
+      document.getElementById('modal-desc').innerText = description;
+      
+      const tempGroup = document.getElementById('temp-group');
+      if (hasTempChoice) {
+        tempGroup.style.display = 'block';
+        document.getElementById('temp-choice').selectedIndex = 0;
+      } else {
+        tempGroup.style.display = 'none';
+      }
+
+      const milkGroup = document.getElementById('milk-group');
+      const milkSelect = document.getElementById('milk-choice');
+      if (milkType !== 'none') {
+        milkGroup.style.display = 'block';
+        milkSelect.innerHTML = '';
+        if (milkType === 'optional') {
+          milkSelect.add(new Option('No Milk', 'None'));
+        }
+        milkSelect.add(new Option('Whole Milk (A2)', 'Whole Milk (A2)'));
+        milkSelect.add(new Option('Oatmilk (Califia)', 'Oatmilk (Califia)'));
+        milkSelect.value = defaultMilk;
+      } else {
+        milkGroup.style.display = 'none';
+      }
+
+      const beanGroup = document.getElementById('bean-group');
+      if (hasBeans) {
+        beanGroup.style.display = 'block';
+        document.getElementById('bean-choice').selectedIndex = 0;
+      } else {
+        beanGroup.style.display = 'none';
+      }
+
+      const syrupGroup = document.getElementById('syrup-group');
+      if (hasSyrup) {
+        syrupGroup.style.display = 'block';
+        document.getElementById('syrup-choice').selectedIndex = 0;
+      } else {
+        syrupGroup.style.display = 'none';
+      }
+      
+      document.getElementById('order-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('order-modal').style.display = 'none';
+    }
+
+    function addToCart() {
+      const temp = document.getElementById('temp-choice').value;
+      const milkSelect = document.getElementById('milk-choice');
+      const milk = milkSelect ? milkSelect.value : 'None';
+      const bean = document.getElementById('bean-choice').value;
+      const syrup = document.getElementById('syrup-choice').value;
+      
+      const cartSection = document.getElementById('cart-section');
+      const cartItems = document.getElementById('cart-items');
+      
+      cartSection.style.display = 'block';
+
+      let detailsArray = [];
+      if (currentHasTempChoice) detailsArray.push(temp);
+      if (currentMilkType !== 'none' && milk !== 'None') detailsArray.push(milk);
+      if (currentNeedsBeans && bean !== 'Classic (YES PLZ)') detailsArray.push(bean);
+      if (currentNeedsSyrup && syrup !== 'None') detailsArray.push(`Add ${syrup}`);
+      
+      const detailsText = detailsArray.length > 0 ? `(${detailsArray.join(', ')})` : '';
+
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <div>
+          <strong class="cart-item-name">${currentItem}</strong>
+          <span class="cart-details">${detailsText}</span>
+        </div>
+        <button onclick="this.parentElement.remove(); checkEmptyCart();" style="background:none; border:none; color:var(--accent); text-decoration:underline; font-size:0.8rem; padding:0; flex:0;">Remove</button>
+      `;
+      
+      cartItems.appendChild(li);
+      closeModal();
+    }
+
+    function checkEmptyCart() {
+      const cartItems = document.getElementById('cart-items');
+      if (cartItems.children.length === 0) {
+        document.getElementById('cart-section').style.display = 'none';
+      }
+    }
+
+    function copyOrder() {
+      const items = document.querySelectorAll('#cart-items li');
+      let orderText = "Hey! Here is my order:\n\n";
+      
+      items.forEach(item => {
+        const name = item.querySelector('.cart-item-name').innerText;
+        const details = item.querySelector('.cart-details').innerText;
+        orderText += `- ${name} ${details}\n`.trim() + '\n';
+      });
+      
+      navigator.clipboard.writeText(orderText).then(() => {
+        alert('Order copied to clipboard! Send it to the Host.');
+      }).catch(err => {
+        alert('Failed to copy to clipboard. Please copy manually.');
+        console.error('Error copying text: ', err);
+      });
+    }
+  </script>
 </body>
 </html>
