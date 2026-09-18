@@ -12,6 +12,7 @@
       --accent: #8b5e3c;
       --accent-light: #d9c1a8;
       --muted: #71695f;
+      font-size: 150%;
     }
     * { box-sizing: border-box; }
     body {
@@ -22,7 +23,7 @@
       line-height: 1.5;
     }
     .menu {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 40px auto;
       padding: 60px 70px;
       background: var(--paper);
@@ -170,8 +171,8 @@
   <main class="menu">
     <header>
       <div class="logo">Cafe Leek</div>
-      <p class="tagline">Food for the Body, Drink for the Soul</p>
-      <div class="divider"></div>
+      <p class="tagline">A Kikoen Coffee Corner</p>
+      <!--<div class="divider"></div>-->
     </header>
 
     <section>
@@ -182,29 +183,29 @@
           <h3>Espresso</h3>
           <div class="item">
             <span class="item-name">Flat White</span>
-            <span class="description">2 oz espresso, 4 oz steamed milk</span>
+            <span class="description">espresso, milk - 6 oz</span>
           </div>
           <div class="item">
             <span class="item-name">Latte</span>
-            <span class="description">2 oz espresso, 6 oz steamed milk</span>
+            <span class="description">espresso, milk - 8 oz</span>
           </div>
           <div class="item">
             <span class="item-name">Iced Latte</span>
-            <span class="description">2 oz espresso, 6 oz frothed milk, ice cubes</span>
+            <span class="description">espresso, milk, ice cubes - 8 oz</span>
           </div>
           <div class="item">
             <span class="item-name">Aerocano</span>
-            <span class="description">2 oz espresso, 4 oz water, steamed together</span>
+            <span class="description">espresso, water - 6 oz</span>
           </div>
 
           <h3>Brewed</h3>
           <div class="item">
             <span class="item-name">Drip Coffee</span>
-            <span class="description">Sermon by Verve, brewed in the OXO</span>
+            <span class="description">brewed in the OXO - 8 oz</span>
           </div>
           <div class="item">
             <span class="item-name">Pour Over</span>
-            <span class="description">Fancy beans, brewed in the Hario for 3 minutes</span>
+            <span class="description">brewed in the Hario - 8 oz</span>
           </div>
         </div>
         
@@ -212,15 +213,15 @@
           <h3>Matcha</h3>
           <div class="item">
             <span class="item-name">Matchacano</span>
-            <span class="description">2g matcha, 6 oz water, steamed together</span>
+            <span class="description">matcha, water - 8 oz</span>
           </div>
           <div class="item">
             <span class="item-name">Guava Matcha</span>
-            <span class="description">Matcha, guava spread, milk</span>
+            <span class="description">Matcha, guava spread, milk - 8 oz</span>
           </div>
           <div class="item">
             <span class="item-name">Apricot Matcha</span>
-            <span class="description">Matcha, apricot spread, milk</span>
+            <span class="description">Matcha, apricot spread, milk - 8 oz</span>
           </div>
 
           <h3>Specials</h3>
@@ -252,15 +253,15 @@
           <h3>Beans</h3>
           <div class="item">
             <span class="item-name">Classic</span>
-            <span class="description">Homestar by YES PLZ</span>
+            <span class="description">From YES PLZ</span>
           </div>
           <div class="item">
             <span class="item-name">Decaf</span>
-            <span class="description">Colombia Sugar Cane by Chromatic Coffee. Toffee &amp; Biscuit</span>
+            <span class="description">From Chromatic<br/>Toffee &amp; Biscuit</span>
           </div>
           <div class="item">
             <span class="item-name">Fancy</span>
-            <span class="description">Granja Paraiso 92 by Moonwake. Starfruit, Pink Starburst, POG Juice</span>
+            <span class="description">From Moonwake<br/>Starfruit, Pink Starburst, POG Juice</span>
           </div>
         </div>
 
@@ -279,7 +280,8 @@
     </section>
 
     <!-- QR Code placed inside main so it positions relative to the menu card -->
-    <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://jetsu42.github.io/menu/" alt="QR Code for The Meeple's Cafe Menu">
+    <!--<img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://jetsu42.github.io/menu/" alt="QR Code for The Meeple's Cafe Menu">-->
+    <img class="qr-code" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABIElEQVRIib2Wsa3DMAxEKbhQqRE0ihcL7Hgzj6IRVKowcjmS/38Y+CkjEmr8XPhAHY8W+VA7WOcC5JZG1Yfxdfbgd8pJzNejPkVSECu4imqReox6AEcku2QFXhLORNZ/WiYz673iSi33+5jL3GtkQ7Xc/TeXeS04TcW95jJquQrQBXjmtvHEsKWvSxd6LTeq2OxEMB9os9uWcaDtI4TtDLC+XtbzrAZPMUwbUPBbarfvswcnl6HROb9/9xvDREPS5jdTjfY5hqkWyytYA1IUE98LXraSIpiXxRRVJDSJYZ6TPLb33WsRzPeCFFCCaXGvzWe2B2Eus96/IpnnpOaV/V/FsXJm3QseWSFMfva+eq2yEymGudfs/4parP0h7EO9Acnlqv8WQT+JAAAAAElFTkSuQmCC" alt="QR Code for The Meeple's Cafe Menu">
   </main>
 </body>
 </html>
