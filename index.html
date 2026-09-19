@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Meeple's Cafe — Order App</title>
   <style>
-    /* Paste all of your original CSS here exactly as it was. No changes are needed to the styles. */
     :root {
       --ink: #29251f;
       --cream: #f7f1e5;
@@ -254,6 +253,31 @@
         gap: 0;
       }
     }
+
+    #toast-notification {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--paper);
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #toast-notification.show {
+      opacity: 1;
+      visibility: visible;
+      bottom: 30px;
+    }
   </style>
 </head>
 <body>
@@ -333,6 +357,8 @@
       </div>
     </div>
   </div>
+
+  <div id="toast-notification">Added to cart! Scroll down to submit.</div>
 
   <script>
     // -----------------------------------------
@@ -613,6 +639,14 @@
       `;
       
       cartItems.appendChild(li);
+
+      const toast = document.getElementById('toast-notification');
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+
       closeModal();
     }
 
