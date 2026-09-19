@@ -90,19 +90,23 @@
     }
     
     .item { margin: 0 0 18px; }
+    
+    /* Updated interactive-item to look more like a button */
     .interactive-item {
       padding: 12px;
       border-radius: 6px;
-      border: 1px solid transparent;
+      border: 1px solid var(--accent-light);
+      background: rgba(255, 255, 255, 0.4);
       cursor: pointer;
       transition: all 0.2s ease;
     }
     .interactive-item:hover {
       background: #ffffff;
-      border-color: var(--accent-light);
+      border-color: var(--accent);
       box-shadow: 0 4px 12px rgba(41, 37, 31, 0.08);
       transform: translateY(-2px);
     }
+    
     .item-name {
       display: block;
       font-size: 1.05rem;
@@ -240,6 +244,19 @@
     body.menu .description { display: none; }
     body.menu .qr-code { display: block; }
     body.menu section:nth-of-type(2) { display: block; }
+    
+    /* Flatten the buttons back to plain text for Menu Mode */
+    body.menu .interactive-item { 
+      border-color: transparent; 
+      background: transparent; 
+    }
+    body.menu .interactive-item:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: transparent;
+      background: transparent;
+      cursor: default;
+    }
 
     @media (max-width: 650px) {
       .menu {
@@ -528,7 +545,7 @@
       }
     }
 
-    // NEW: Handle forcing the Syrup selection when Cold Foam is applied
+    // Handle forcing the Syrup selection when Cold Foam is applied
     function handleColdFoamChange() {
       const isColdFoam = document.getElementById('cold-foam-choice').value === 'Cold Foam';
       const syrupGroup = document.getElementById('syrup-group');
