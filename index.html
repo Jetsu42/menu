@@ -394,7 +394,7 @@
           { value: "Fancy (Moonwake)", name: "Fancy", desc: "From Moonwake" }
         ],
         syrups: [
-          { value: "Vanilla", name: "Vanilla", desc: "Storebought" },
+          { value: "Vanilla", name: "Vanilla", desc: "" },
           { value: "Orange Cinnamon Rosemary", name: "Orange Cinnamon Rosemary", desc: "Housemade, A cozy woodland spice" },
           //{ value: "Fig Leaf", name: "Fig Leaf", desc: "Roasted herbal coconut" },
           { value: "Creme Brulee", name: "Creme Brulee", desc: "Housemade, Sticky hard caramel" }
@@ -495,7 +495,7 @@
 
       const syrupSelect = document.getElementById('syrup-choice');
       syrupSelect.add(new Option("None", "None"));
-      menuData.globalOptions.syrups.forEach(s => syrupSelect.add(new Option(`${s.value} - ${s.desc}`, s.value)));
+      menuData.globalOptions.syrups.forEach(s => syrupSelect.add(new Option(s.desc ? `${s.value} - ${s.desc}` : s.value, s.value)));
     }
 
     // Initialize UI on load
