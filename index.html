@@ -572,7 +572,7 @@
       currentDrinkConfig = drink;
 
       document.getElementById('modal-title').innerText = drink.name;
-      document.getElementById('modal-desc').innerText = drink.desc;
+      document.getElementById('modal-desc').innerHTML = drink.desc;
       
       const tempGroup = document.getElementById('temp-group');
       if (drink.hasTempChoice) {
