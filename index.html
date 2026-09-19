@@ -318,6 +318,15 @@
         <select id="syrup-choice"></select>
       </div>
 
+      <!-- NEW: Cold Foam Option -->
+      <div id="cold-foam-group" style="display: none;">
+        <label for="cold-foam-choice">Add Cold Foam</label>
+        <select id="cold-foam-choice">
+          <option value="None">No</option>
+          <option value="Cold Foam">Yes</option>
+        </select>
+      </div>
+
       <div class="modal-actions">
         <button class="btn-secondary" onclick="closeModal()">Cancel</button>
         <button class="btn-primary" onclick="addToCart()">Add to Order</button>
@@ -396,6 +405,7 @@
         catDiv.innerHTML = `<h3>${cat.category}</h3>`;
         
         cat.drinks.forEach(drink => {
+          drink.category = cat.category; // NEW: Assign category to the drink object
           const itemDiv = document.createElement('div');
           itemDiv.className = 'item interactive-item';
           itemDiv.onclick = () => openModal(drink);
@@ -449,6 +459,37 @@
     
     let currentDrinkConfig = null;
 
+    // NEW: Listen for temperature changes to toggle Cold Foam visibility
+    document.getElementById('temp-choice').addEventListener('change', updateColdFoamVisibility);
+
+    function updateColdFoamVisibility() {
+      if (!currentDrinkConfig) return;
+      const coldFoamGroup = document.getElementById('cold-foam-group');
+      const coldFoamChoice = document.getElementById('cold-foam-choice');
+      
+      // Rule: Do not allow for Specials
+      if (currentDrinkConfig.category === 'Specials') {
+        coldFoamGroup.style.display = 'none';
+        coldFoamChoice.value = 'None';
+        return;
+      }
+
+      // Rule: Only allow for Iced drinks
+      let isIced = false;
+      if (currentDrinkConfig.hasTempChoice) {
+        isIced = document.getElementById('temp-choice').value === 'Iced';
+      } else {
+        isIced = currentDrinkConfig.desc.includes('Iced');
+      }
+
+      if (isIced) {
+        coldFoamGroup.style.display = 'block';
+      } else {
+        coldFoamGroup.style.display = 'none';
+        coldFoamChoice.value = 'None';
+      }
+    }
+
     function openModal(drink) {
       currentDrinkConfig = drink;
 
@@ -488,6 +529,8 @@
       document.getElementById('syrup-group').style.display = drink.hasSyrup ? 'block' : 'none';
       if(drink.hasSyrup) document.getElementById('syrup-choice').selectedIndex = 0;
       
+      updateColdFoamVisibility(); // NEW: Check cold foam rules when opening modal
+
       document.getElementById('order-modal').style.display = 'flex';
     }
 
@@ -501,6 +544,7 @@
       const milk = milkSelect ? milkSelect.value : 'None';
       const bean = document.getElementById('bean-choice').value;
       const syrup = document.getElementById('syrup-choice').value;
+      const coldFoam = document.getElementById('cold-foam-choice').value; // NEW
       
       const cartSection = document.getElementById('cart-section');
       const cartItems = document.getElementById('cart-items');
@@ -516,6 +560,9 @@
       if (currentDrinkConfig.hasBeans && bean !== defaultBean) detailsArray.push(bean);
       
       if (currentDrinkConfig.hasSyrup && syrup !== 'None') detailsArray.push(`Add ${syrup}`);
+
+      // NEW: Add Cold Foam to the cart array if selected
+      if (coldFoam !== 'None') detailsArray.push('Add Cold Foam'); 
       
       const detailsText = detailsArray.length > 0 ? `(${detailsArray.join(', ')})` : '';
 
