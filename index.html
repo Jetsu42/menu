@@ -318,7 +318,7 @@
         <select id="syrup-choice"></select>
       </div>
 
-      <!-- NEW: Cold Foam Option -->
+      <!-- Cold Foam Option -->
       <div id="cold-foam-group" style="display: none;">
         <label for="cold-foam-choice">Add Cold Foam</label>
         <select id="cold-foam-choice">
@@ -351,6 +351,7 @@
           { value: "Fancy (Moonwake)", name: "Fancy", desc: "From Moonwake" }
         ],
         syrups: [
+          { value: "Vanilla", name: "Vanilla", desc: "Classic sweet vanilla" }, 
           { value: "Fig Leaf", name: "Fig Leaf", desc: "Roasted herbal coconut" },
           { value: "Creme Brulee", name: "Creme Brulee", desc: "Sticky hard caramel" }
         ]
@@ -405,7 +406,7 @@
         catDiv.innerHTML = `<h3>${cat.category}</h3>`;
         
         cat.drinks.forEach(drink => {
-          drink.category = cat.category; // NEW: Assign category to the drink object
+          drink.category = cat.category; 
           const itemDiv = document.createElement('div');
           itemDiv.className = 'item interactive-item';
           itemDiv.onclick = () => openModal(drink);
@@ -459,8 +460,9 @@
     
     let currentDrinkConfig = null;
 
-    // NEW: Listen for temperature changes to toggle Cold Foam visibility
+    // Event Listeners for dependent dropdowns
     document.getElementById('temp-choice').addEventListener('change', updateColdFoamVisibility);
+    document.getElementById('cold-foam-choice').addEventListener('change', handleColdFoamChange);
 
     function updateColdFoamVisibility() {
       if (!currentDrinkConfig) return;
@@ -470,7 +472,10 @@
       // Rule: Do not allow for Specials
       if (currentDrinkConfig.category === 'Specials') {
         coldFoamGroup.style.display = 'none';
-        coldFoamChoice.value = 'None';
+        if (coldFoamChoice.value !== 'None') {
+          coldFoamChoice.value = 'None';
+          handleColdFoamChange(); // Reset syrup forcing
+        }
         return;
       }
 
@@ -486,7 +491,30 @@
         coldFoamGroup.style.display = 'block';
       } else {
         coldFoamGroup.style.display = 'none';
-        coldFoamChoice.value = 'None';
+        if (coldFoamChoice.value !== 'None') {
+          coldFoamChoice.value = 'None';
+          handleColdFoamChange(); // Reset syrup forcing
+        }
+      }
+    }
+
+    // NEW: Handle forcing the Syrup selection when Cold Foam is applied
+    function handleColdFoamChange() {
+      const isColdFoam = document.getElementById('cold-foam-choice').value === 'Cold Foam';
+      const syrupGroup = document.getElementById('syrup-group');
+      const syrupChoice = document.getElementById('syrup-choice');
+      const noneOption = syrupChoice.querySelector('option[value="None"]');
+
+      if (isColdFoam) {
+        syrupGroup.style.display = 'block';
+        if (noneOption) noneOption.disabled = true;
+        if (syrupChoice.value === 'None') syrupChoice.value = 'Vanilla';
+      } else {
+        if (noneOption) noneOption.disabled = false;
+        if (!currentDrinkConfig.hasSyrup) {
+          syrupGroup.style.display = 'none';
+          syrupChoice.value = 'None';
+        }
       }
     }
 
@@ -526,10 +554,15 @@
       document.getElementById('bean-group').style.display = drink.hasBeans ? 'block' : 'none';
       if(drink.hasBeans) document.getElementById('bean-choice').selectedIndex = 0;
 
+      // Reset syrup and cold foam to default states
       document.getElementById('syrup-group').style.display = drink.hasSyrup ? 'block' : 'none';
-      if(drink.hasSyrup) document.getElementById('syrup-choice').selectedIndex = 0;
+      document.getElementById('syrup-choice').selectedIndex = 0;
       
-      updateColdFoamVisibility(); // NEW: Check cold foam rules when opening modal
+      const noneOption = document.getElementById('syrup-choice').querySelector('option[value="None"]');
+      if (noneOption) noneOption.disabled = false;
+      document.getElementById('cold-foam-choice').value = 'None';
+      
+      updateColdFoamVisibility(); 
 
       document.getElementById('order-modal').style.display = 'flex';
     }
@@ -544,7 +577,7 @@
       const milk = milkSelect ? milkSelect.value : 'None';
       const bean = document.getElementById('bean-choice').value;
       const syrup = document.getElementById('syrup-choice').value;
-      const coldFoam = document.getElementById('cold-foam-choice').value; // NEW
+      const coldFoam = document.getElementById('cold-foam-choice').value;
       
       const cartSection = document.getElementById('cart-section');
       const cartItems = document.getElementById('cart-items');
@@ -559,9 +592,9 @@
       const defaultBean = menuData.globalOptions.beans[0].value;
       if (currentDrinkConfig.hasBeans && bean !== defaultBean) detailsArray.push(bean);
       
-      if (currentDrinkConfig.hasSyrup && syrup !== 'None') detailsArray.push(`Add ${syrup}`);
+      // Check if any syrup is selected (even if forced by Cold Foam on drinks that don't normally have it)
+      if (syrup !== 'None') detailsArray.push(`Add ${syrup}`);
 
-      // NEW: Add Cold Foam to the cart array if selected
       if (coldFoam !== 'None') detailsArray.push('Add Cold Foam'); 
       
       const detailsText = detailsArray.length > 0 ? `(${detailsArray.join(', ')})` : '';
