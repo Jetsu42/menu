@@ -7,8 +7,8 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400&family=Pacifico&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --ink: #29251f;
@@ -29,7 +29,7 @@
       line-height: 1.5;
     }
 
-    .logo, h2, h3, button, .cart-details {
+    h2, h3, button, .cart-details {
       font-family: 'Space Mono', monospace;
     }
 
@@ -44,9 +44,10 @@
     }
     header { text-align: center; margin-bottom: 50px; }
     .logo {
-      font-size: 2rem;
-      letter-spacing: .3em;
-      text-transform: uppercase;
+      font-family: 'Pacifico', cursive;
+      font-size: 2.8rem;
+      letter-spacing: 1px; /* Tighter spacing so script letters connect */
+      text-transform: none; /* Script fonts look best in title case, not all caps */
       color: var(--accent);
       margin-bottom: 10px;
     }
@@ -63,6 +64,7 @@
       font-style: italic;
       color: var(--muted);
       letter-spacing: .04em;
+      font-family: 'Space Mono', monospace;
     }
     section { margin-top: 42px; }
     .section-title {
@@ -405,7 +407,7 @@
           { value: "Fancy (Moonwake)", name: "Fancy", desc: "From Moonwake" },
         ],
         syrups: [
-          { value: "Orange Cinnamon Rosemary", name: "Orange Cinnamon Rosemary", desc: "Housemade, A cozy woodland spice" },
+          { value: "Orange Cinnamon Rosemary", name: "Orange Cinnamon Rosemary", desc: "Housemade, citrusy spiced piney" },
           //{ value: "Fig Leaf", name: "Fig Leaf", desc: "Housemade, Roasted herbal coconut" },
           { value: "Creme Brulee", name: "Creme Brulee", desc: "Housemade, Sticky hard caramel" },
           { value: "Vanilla", name: "Vanilla", desc: "" },
@@ -417,10 +419,10 @@
         {
           category: "Espresso",
           drinks: [
-            { id: "flat-white", name: "Flat White", desc: "espresso, milk - 6 oz - Hot<br>less foam than a traditional cappucino", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
+            { id: "cappuccino", name: "Cappuccino", desc: "espresso, milk - 6 oz - Hot<br>modern style, less foamy", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
             { id: "latte", name: "Latte", desc: "espresso, milk - 8 oz", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: true },
             { id: "aerocano", name: "Aerocano", desc: "espresso, water - 6 oz<br>areated through steam", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: true, hasTempChoice: true },
-            { id: "immersion-flat-white", name: "Immersion Flat White", desc: "espresso, milk - 6 oz - Hot<br>rolled in jugs for a velvety texture", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
+            { id: "immersion-cappuccino", name: "Immersion Cappuccino", desc: "espresso, milk - 6 oz - Hot<br>rolled in jugs for a velvety texture", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
           ]
         },
         {
