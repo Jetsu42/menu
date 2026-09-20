@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Meeple's Cafe — Order App</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --ink: #29251f;
@@ -12,16 +17,22 @@
       --accent: #8b5e3c;
       --accent-light: #d9c1a8;
       --muted: #71695f;
-      font-size: 150%;
+      font-size: 125%;
     }
     * { box-sizing: border-box; }
+    
     body {
       margin: 0;
       background: var(--cream);
       color: var(--ink);
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: 'Inter', sans-serif;
       line-height: 1.5;
     }
+
+    .logo, h2, h3, button, .cart-details {
+      font-family: 'Space Mono', monospace;
+    }
+
     .menu {
       max-width: 1000px;
       margin: 40px auto;
@@ -91,7 +102,6 @@
     
     .item { margin: 0 0 18px; }
     
-    /* Updated interactive-item to look more like a button */
     .interactive-item {
       padding: 12px;
       border-radius: 6px;
@@ -226,7 +236,6 @@
     button {
       flex: 1;
       padding: 12px;
-      font-family: inherit;
       font-size: 1rem;
       border: none;
       border-radius: 4px;
@@ -436,7 +445,7 @@
             { id: "milk-brew", name: "Milk Brew", desc: "coffee steeped in milk overnight<br>6 oz - Iced", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
             { id: "matchacano", name: "Matchacano", desc: "matcha, water - 8 oz", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: true },
             { id: "fridge-cigarette", name: "Fridge Cigarette", desc: "soda, espresso, vanilla cold foam<br>8 oz - Iced", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: false, hasTempChoice: false },
-            { id: "mont-blanc", name: "Mont Blanc", desc: "orange vanilla coffee and cold foam (V2 coming soon) - 8 oz - Iced", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            { id: "mont-blanc", name: "Mont Blanc", desc: "orange vanilla coffee and cold foam<br>8 oz - Iced - (V2 coming soon)", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
           ]
         }
       ]
