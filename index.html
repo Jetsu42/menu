@@ -297,12 +297,14 @@
       transition: all 0.3s ease;
       pointer-events: none;
       white-space: nowrap;
+      cursor: pointer;
     }
 
     #toast-notification.show {
       opacity: 1;
       visibility: visible;
       bottom: 30px;
+      pointer-events: auto;
     }
   </style>
 </head>
@@ -384,7 +386,7 @@
     </div>
   </div>
 
-  <div id="toast-notification">Added! Scroll down to submit.</div>
+  <div id="toast-notification" onclick="document.getElementById('cart-section').scrollIntoView({behavior: 'smooth'})">Added! See cart down below.</div>
 
   <script>
     // -----------------------------------------
