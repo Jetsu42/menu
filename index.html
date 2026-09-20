@@ -388,7 +388,7 @@
     </div>
   </div>
 
-  <div id="toast-notification" onclick="document.getElementById('cart-section').scrollIntoView({behavior: 'smooth'})">Added! See cart down below.</div>
+  <div id="toast-notification" onclick="handleToastClick()">Added! See cart down below.</div>
 
   <script>
     // -----------------------------------------
@@ -404,7 +404,7 @@
         beans: [
           { value: "Classic (YES PLZ)", name: "Classic", desc: "From YES PLZ" },
           { value: "Decaf (Chromatic)", name: "Decaf", desc: "From Chromatic" },
-          { value: "Fancy (Moonwake)", name: "Fancy", desc: "From Moonwake" },
+          //{ value: "Fancy (Moonwake)", name: "Fancy", desc: "From Moonwake" },
         ],
         syrups: [
           { value: "Orange Cinnamon Rosemary", name: "Orange Cinnamon Rosemary", desc: "Housemade, citrusy spiced piney" },
@@ -706,6 +706,17 @@
         alert('Failed to copy to clipboard. Please copy manually.');
         console.error('Error copying text: ', err);
       });
+    }
+
+    function handleToastClick() {
+      // 1. Dismiss the toast immediately
+      document.getElementById('toast-notification').classList.remove('show');
+      
+      // 2. Scroll to the cart section
+      const cartSection = document.getElementById('cart-section');
+      if (cartSection) {
+        cartSection.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   </script>
 </body>
