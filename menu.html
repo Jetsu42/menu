@@ -137,6 +137,16 @@
       gap: 35px;
       align-items: start;
     }
+    .qr-code {
+      display: block;
+      width: 90px;
+      height: 90px;
+      border-radius: 4px;
+      position: absolute;
+      bottom: 60px;
+      left: 60px;
+      filter: sepia(87%);
+    }
     .choices {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -239,6 +249,26 @@
     .btn-secondary { background: var(--accent-light); color: var(--ink); }
     .btn-secondary:hover { background: #c6ab90; }
 
+    .qr-code { display: none; }
+    section:nth-of-type(2) { display: none; }
+
+    body.menu .description { display: none; }
+    body.menu .qr-code { display: block; }
+    body.menu section:nth-of-type(2) { display: block; }
+    
+    /* Flatten the buttons back to plain text for Menu Mode */
+    body.menu .interactive-item { 
+      border-color: transparent; 
+      background: transparent; 
+    }
+    body.menu .interactive-item:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: transparent;
+      background: transparent;
+      cursor: default;
+    }
+
     @media (max-width: 650px) {
       .menu {
         margin: 0;
@@ -295,12 +325,22 @@
       </div>
     </section>
 
+    <!-- Options Section -->
+    <section>
+      <div class="section-title"><h2>Options</h2></div>
+      <div id="options-container" class="choices">
+        <!-- Injected via JSON -->
+      </div>
+    </section>
+
     <!-- Dynamic Cart Section -->
     <section id="cart-section">
       <div class="section-title"><h2>Your Order</h2></div>
       <ul id="cart-items"></ul>
       <button class="btn-primary" style="margin-top: 20px; width: 100%;" onclick="copyOrder()">Copy to Clipboard</button>
     </section>
+
+    <img class="qr-code" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABIElEQVRIib2Wsa3DMAxEKbhQqRE0ihcL7Hgzj6IRVKowcjmS/38Y+CkjEmr8XPhAHY8W+VA7WOcC5JZG1Yfxdfbgd8pJzNejPkVSECu4imqReox6AEcku2QFXhLORNZ/WiYz673iSi33+5jL3GtkQ7Xc/TeXeS04TcW95jJquQrQBXjmtvHEsKWvSxd6LTeq2OxEMB9os9uWcaDtI4TtDLC+XtbzrAZPMUwbUPBbarfvswcnl6HROb9/9xvDREPS5jdTjfY5hqkWyytYA1IUE98LXraSIpiXxRRVJDSJYZ6TPLb33WsRzPeCFFCCaXGvzWe2B2Eus96/IpnnpOaV/V/FsXJm3QseWSFMfva+eq2yEymGudfs/4parP0h7EO9Acnlqv8WQT+JAAAAAElFTkSuQmCC" alt="QR Code for The Meeple's Cafe Menu">
   </main>
 
   <!-- Ordering Modal -->
@@ -455,7 +495,23 @@
       drinksContainer.appendChild(col1);
       drinksContainer.appendChild(col2);
 
-      // 2. Populate Modal Dropdowns
+      // 2. Render Options Panel
+      const optionsContainer = document.getElementById('options-container');
+      
+      const milksDiv = document.createElement('div');
+      milksDiv.innerHTML = `<h3>Milks</h3>` + menuData.globalOptions.milks.map(m => `<div class="item"><span class="item-name">${m.name}</span><span class="description">${m.desc}</span></div>`).join('');
+      
+      const beansDiv = document.createElement('div');
+      beansDiv.innerHTML = `<h3>Beans</h3>` + menuData.globalOptions.beans.map(b => `<div class="item"><span class="item-name">${b.name}</span><span class="description">${b.desc}</span></div>`).join('');
+      
+      const syrupsDiv = document.createElement('div');
+      syrupsDiv.innerHTML = `<h3>Syrups</h3>` + menuData.globalOptions.syrups.map(s => `<div class="item"><span class="item-name">${s.name}</span><span class="description">${s.desc}</span></div>`).join('');
+
+      optionsContainer.appendChild(milksDiv);
+      optionsContainer.appendChild(beansDiv);
+      optionsContainer.appendChild(syrupsDiv);
+
+      // 3. Populate Modal Dropdowns
       const beanSelect = document.getElementById('bean-choice');
       menuData.globalOptions.beans.forEach(b => beanSelect.add(new Option(b.value, b.value)));
 
@@ -467,6 +523,11 @@
     // Initialize UI on load
     document.addEventListener("DOMContentLoaded", initMenu);
 
+    // Add .menu class to body if ?menu is in the URL
+    if (new URLSearchParams(window.location.search).has('menu')) {
+      document.body.classList.add('menu');
+    }
+    
     let currentDrinkConfig = null;
 
     // Event Listeners for dependent dropdowns
