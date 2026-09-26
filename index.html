@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400&family=Pacifico&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
   <style>
     :root {
       --ink: #29251f;
@@ -131,6 +134,43 @@
       font-size: .95rem;
       padding-left: 16px;
     }
+    
+    /* Hot/Cold Phosphor Icon Alignment */
+    .description i {
+      font-size: 1.3rem;
+      vertical-align: text-bottom;
+      margin: 0 2px;
+    }
+    
+    .description i.ph-fire {
+      color: #e63946; /* Red for hot */
+    }
+    
+    .description i.ph-snowflake {
+      color: #0077b6; /* Blue for iced */
+    }
+
+    /* Custom CSS-drawn Cup Icon containing the size */
+    .icon-cup {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-style: normal;
+      height: 1.35rem;
+      min-width: 1.7rem;
+      border: 1.5px solid var(--muted);
+      border-top: 3px solid var(--muted); /* Creates the look of a cup rim/lid */
+      border-radius: 2px 2px 10px 10px; /* Curves the bottom like a coffee cup */
+      font-size: 0.65rem;
+      font-weight: bold;
+      font-family: 'Space Mono', monospace;
+      color: var(--muted);
+      vertical-align: text-bottom;
+      margin-right: 4px;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
     .drinks {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -379,47 +419,47 @@
         {
           category: "Espresso",
           drinks: [
-            { id: "cappuccino", name: "Cappuccino", desc: "espresso, milk - 6 oz - Hot<br>modern style, less foamy", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
-            { id: "latte", name: "Latte", desc: "espresso, milk - 8 oz", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: true },
-            { id: "aerocano", name: "Aerocano", desc: "espresso, water - 6 oz<br>areated through steam", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: true, hasTempChoice: true },
-            { id: "immersion-cappuccino", name: "Immersion Cappuccino", desc: "espresso, milk - 6 oz - Hot<br>rolled in jugs for a velvety texture", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
+            { id: "cappuccino", name: "Cappuccino", desc: "espresso, milk &nbsp; <span class='icon-cup'>6oz</span> <i class='ph ph-fire'></i><br>modern style, less foamy", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
+            { id: "latte", name: "Latte", desc: "espresso, milk &nbsp; <span class='icon-cup'>8oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: true },
+            { id: "aerocano", name: "Aerocano", desc: "espresso, water &nbsp; <span class='icon-cup'>6oz</span><br>areated through steam", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: true, hasTempChoice: true },
+            { id: "immersion-cappuccino", name: "Immersion Cappuccino", desc: "espresso, milk &nbsp; <span class='icon-cup'>6oz</span> <i class='ph ph-fire'></i><br>rolled in jugs for a velvety texture", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
           ]
         },
         {
           category: "Brewed",
           drinks: [
-            { id: "drip", name: "Drip Coffee", desc: "brewed in the OXO - 8 oz", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
-            { id: "pour-over", name: "Pour Over", desc: "brewed in the Hario - 8 oz", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
-            { id: "iced-earl-grey", name: "Iced Earl Grey", desc: "8 oz - Iced", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
-            { id: "cold-brew", name: "Cold Brew", desc: "steeped overnight - 8 oz - Iced", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: false },
+            { id: "drip", name: "Drip Coffee", desc: "brewed in the OXO &nbsp; <span class='icon-cup'>8oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
+            { id: "pour-over", name: "Pour Over", desc: "brewed in the Hario &nbsp; <span class='icon-cup'>8oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
+            { id: "iced-earl-grey", name: "Iced Earl Grey", desc: "<span class='icon-cup'>8oz</span> <i class='ph ph-snowflake'></i>", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            { id: "cold-brew", name: "Cold Brew", desc: "steeped overnight &nbsp; <span class='icon-cup'>8oz</span> <i class='ph ph-snowflake'></i>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: false },
           ]
         },
         // {
         //   category: "Matcha",
         //   drinks: [
-        //     { id: "matchacano", name: "Matchacano", desc: "matcha, water - 8 oz", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: true },
-        //     { id: "matcha-latte", name: "Matcha Latte", desc: "matcha, milk - 8 oz - Iced", milkType: "required", defaultMilk: "Oatmilk (Califia)", hasBeans: false, hasSyrup: false, hasTempChoice: false },
-        //     { id: "guava-matcha", name: "Guava Matcha", desc: "matcha, guava spread, milk - 8 oz - Iced", milkType: "required", defaultMilk: "Oatmilk (Califia)", hasBeans: false, hasSyrup: false, hasTempChoice: false },
-        //     { id: "apricot-matcha", name: "Apricot Matcha", desc: "matcha, apricot spread, milk - 8 oz - Iced", milkType: "required", defaultMilk: "Oatmilk (Califia)", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+        //     { id: "matchacano", name: "Matchacano", desc: "matcha, water &nbsp; 8 oz", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: true },
+        //     { id: "matcha-latte", name: "Matcha Latte", desc: "matcha, milk &nbsp; 8 oz", milkType: "required", defaultMilk: "Oatmilk (Califia)", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+        //     { id: "guava-matcha", name: "Guava Matcha", desc: "matcha, guava spread, milk &nbsp; 8 oz", milkType: "required", defaultMilk: "Oatmilk (Califia)", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+        //     { id: "apricot-matcha", name: "Apricot Matcha", desc: "matcha, apricot spread, milk &nbsp; 8 oz", milkType: "required", defaultMilk: "Oatmilk (Califia)", hasBeans: false, hasSyrup: false, hasTempChoice: false },
         //   ]
         // },
         {
           category: "Specials",
           drinks: [
-            //{ id: "milk-brew", name: "Milk Brew", desc: "coffee steeped in milk overnight<br>6 oz - Iced", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
-            { id: "matchacano", name: "Matchacano", desc: "matcha, water - 8 oz<br>areated through steam", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: true },
-            //{ id: "fridge-cigarette", name: "Fridge Cigarette", desc: "soda, espresso, vanilla cold foam<br>8 oz - Iced", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: false, hasTempChoice: false },
-            //{ id: "mont-blanc", name: "Mont Blanc", desc: "orange vanilla coffee and cold foam<br>8 oz - Iced - (V2 coming soon)", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            //{ id: "milk-brew", name: "Milk Brew", desc: "coffee steeped in milk overnight<br>6 oz <i class='ph ph-snowflake'></i>", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            { id: "matchacano", name: "Matchacano", desc: "matcha, water &nbsp; <span class='icon-cup'>8oz</span><br>areated through steam", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: true },
+            //{ id: "fridge-cigarette", name: "Fridge Cigarette", desc: "soda, espresso, vanilla cold foam<br>8 oz <i class='ph ph-snowflake'></i>", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: false, hasTempChoice: false },
+            //{ id: "mont-blanc", name: "Mont Blanc", desc: "orange vanilla coffee and cold foam<br>8 oz <i class='ph ph-snowflake'></i> (V2 coming soon)", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
           ]
         },
         {
           category: "Caffeine Free",
           drinks: [
             { id: "ice-cream", name: "Vanilla Ice Cream", desc: "perfect for trying out syrups!", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: true, hasTempChoice: false },
-            { id: "citron", name: "Citron Tea", desc: "honey, citron, ginger - 8 oz - Hot", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            { id: "citron", name: "Citron Tea", desc: "honey, citron, ginger &nbsp; <span class='icon-cup'>8oz</span> <i class='ph ph-fire'></i>", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
             { id: "egg-cream", name: "Egg Cream", desc: "milk, chocolate, sparkling water", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
-            { id: "effervescente", name: "Galeffi Effervescente", desc: "8oz - Iced<br>fizzy lemon digestif", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
-            { id: "hot-chocolate", name: "Hot Chocolate", desc: "Cola Cao, steamed milk<br>8oz - Hot", milkType: "optional", defaultMilk: "Whole Milk (A2)", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            { id: "effervescente", name: "Galeffi Effervescente", desc: "<span class='icon-cup'>8oz</span> <i class='ph ph-snowflake'></i><br>fizzy lemon digestif", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            { id: "hot-chocolate", name: "Hot Chocolate", desc: "Cola Cao, steamed milk<br><span class='icon-cup'>8oz</span> <i class='ph ph-fire'></i>", milkType: "optional", defaultMilk: "Whole Milk (A2)", hasBeans: false, hasSyrup: false, hasTempChoice: false },
           ]
         },
       ]
@@ -496,7 +536,7 @@
       if (currentDrinkConfig.hasTempChoice) {
         isIced = document.getElementById('temp-choice').value === 'Iced';
       } else {
-        isIced = currentDrinkConfig.desc.includes('Iced');
+        isIced = currentDrinkConfig.desc.includes('ph-snowflake');
       }
 
       if (isIced) {
