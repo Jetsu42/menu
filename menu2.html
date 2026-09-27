@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 
+    Instructions for AI:
+    - Do not remove comments from this file unless there's a good reason
+    - Return the full HTML when asked for an edit
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Meeple's Cafe — Order App</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400&family=Pacifico&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <style>
+    :root {
+      --ink: #2b3a32;
+      --cream: #f2f5f1;
+      --paper: #ffffff;
+      --accent: #6b8e78;
+      --accent-light: #c4d4ca;
+      --muted: #7d8c83;
+      font-size: 150%;
+    }
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+    }
+
+    h2, h3, button, .cart-details {
+      font-family: 'Space Mono', monospace;
+    }
+
+    .menu {
+      max-width: 750px;
+      margin: 40px auto;
+      padding: 60px 70px;
+      background: var(--paper);
+      box-shadow: 0 8px 30px rgba(41, 37, 31, 0.12);
+      position: relative; 
+      border-radius: 8px;
+    }
+    header { text-align: center; margin-bottom: 50px; }
+    .header-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .logo {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.8rem;
+      letter-spacing: 1px; /* Tighter spacing so script letters connect */
+      text-transform: none; /* Script fonts look best in title case, not all caps */
+      color: var(--accent);
+      margin-bottom: 0;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      line-height: 1;
+      font-weight: normal;
+      letter-spacing: -.03em;
+    }
+    .tagline {
+      margin: 10px 0 0;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--muted);
+      letter-spacing: .04em;
+      font-family: 'Space Mono', monospace;
+    }
+    section { margin-top: 42px; }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+    .section-title::before,
+    .section-title::after {
+      content: "";
+      height: 3px;
+      background: var(--accent-light);
+      flex: 1;
+    }
+    h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    h3 {
+      margin: 30px 0 12px;
+      font-size: 1.35rem;
+      font-weight: normal;
+      font-style: italic;
+      color: var(--ink);
+    }
+    h3:first-of-type { margin-top: 0; }
+    #modal-title {
+      font-size: 2rem;
+      color: var(--accent);
+      margin: 18px 0 0;
+    }
+    
+    .item { margin: 0 0 18px; }
+    
+    .interactive-item {
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--accent-light);
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      max-width: 400px;
+    }
+    .interactive-item:hover {
+      background: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(41, 37, 31, 0.08);
+      transform: translateY(-2px);
+    }
+    
+    .item-name {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+    .description {
+      display: block;
+      color: var(--muted);
+      font-size: .95rem;
+      padding-left: 16px;
+    }
+    
+    /* Hot/Cold Phosphor Icon Alignment (Menu & Modal) */
+    .description i, #modal-desc i {
+      font-size: 1.3rem;
+      vertical-align: text-bottom;
+      margin: 0 2px;
+    }
+    
+    .description i.ph-fire, #modal-desc i.ph-fire {
+      color: #e63946; /* Red for hot */
+    }
+    
+    .description i.ph-snowflake, #modal-desc i.ph-snowflake {
+      color: #0077b6; /* Blue for iced */
+    }
+
+    /* Custom CSS-drawn Cup Icon containing the size */
+    .icon-cup {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-style: normal;
+      height: 1.35rem;
+      min-width: 1.7rem;
+      border: 1.5px solid var(--muted);
+      border-top: 3px solid var(--muted); /* Creates the look of a cup rim/lid */
+      border-radius: 2px 2px 10px 10px; /* Curves the bottom like a coffee cup */
+      font-size: 0.65rem;
+      font-weight: bold;
+      font-family: 'Space Mono', monospace;
+      color: var(--muted);
+      vertical-align: text-bottom;
+      margin-right: 4px;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .drinks {
+      display: grid;
+      /*grid-template-columns: repeat(2, minmax(0, 1fr));*/
+      /*gap: 35px;*/
+      align-items: start;
+    }
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 35px;
+      align-items: start;
+    }
+    
+    #cart-section {
+      margin-top: 50px;
+      padding: 25px;
+      background: var(--cream);
+      border-radius: 8px;
+      border: 1px dashed var(--accent);
+      display: none;
+    }
+    #cart-items {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    #cart-items li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--accent-light);
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    #cart-items li:last-child { border-bottom: none; }
+    .cart-details {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+      display: block;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(41, 37, 31, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      backdrop-filter: blur(4px);
+    }
+    .modal {
+      background: var(--paper);
+      padding: 40px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .modal h2 { 
+      margin: 0 0 10px 0; 
+      font-size: 1.5rem; 
+      line-height: 1.2;
+      overflow-wrap: break-word; 
+      word-wrap: break-word;
+    }
+    .modal p.desc {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 25px;
+      font-style: italic;
+    }
+    .modal label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: var(--ink);
+    }
+    .modal select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      background: #fff;
+      border: 1px solid var(--accent-light);
+      font-family: inherit;
+      font-size: 0.9rem;
+      border-radius: 4px;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    button {
+      flex: 1;
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: var(--paper); }
+    .btn-primary:hover { background: #6b472c; }
+    .btn-secondary { background: var(--accent-light); color: var(--ink); }
+    .btn-secondary:hover { background: #c6ab90; }
+
+    @media (max-width: 650px) {
+      .menu {
+        margin: 0;
+        padding: 40px 25px;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .drinks, .choices {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+
+    #toast-notification {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--paper);
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    #toast-notification.show {
+      opacity: 1;
+      visibility: visible;
+      bottom: 30px;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <main class="menu">
+    <header>
+      <div class="header-main">
+        <div>
+          <div class="logo">Cafe Leek</div>
+          <p class="tagline">A Kikoen Coffee Corner</p>
+        </div>
+        <img width="200" src="fox.webp" alt="Fox mascot"/>
+      </div>
+    </header>
+
+    <!-- Drinks Section -->
+    <section>
+      <div class="section-title"><h2>Drinks</h2></div>
+      <div id="drinks-container" class="drinks">
+        <!-- Injected via JSON -->
+      </div>
+    </section>
+
+    <!-- Dynamic Cart Section -->
+    <section id="cart-section">
+      <div class="section-title"><h2>Your Order</h2></div>
+      <ul id="cart-items"></ul>
+      <button class="btn-primary" style="margin-top: 20px; width: 100%;" onclick="copyOrder()">Copy to Clipboard</button>
+    </section>
+
+    <!-- About Us Section -->
+    <section>
+      <div class="section-title"><h2>About Us</h2></div>
+      <header>
+        <span class="description">Come join us for a cup of coffee!  Scan to see specials, syrups and more.</span>
+        <img width="200" src="dog.webp"/>
+        <img src="qr.webp" alt="QR Code for The Meeple's Cafe Menu">
+     </header>
+    </section>
+  </main>
+
+  <!-- Ordering Modal -->
+  <div class="modal-overlay" id="order-modal">
+    <div class="modal">
+      <div id="modal-title">Drink Name</div>
+      <p class="desc" id="modal-desc">Drink description goes here.</p>
+      
+      <div id="temp-group">
+        <label for="temp-choice">Temperature</label>
+        <select id="temp-choice">
+          <option value="Hot">Hot</option>
+          <option value="Iced">Iced</option>
+        </select>
+      </div>
+
+      <div id="milk-group">
+        <label for="milk-choice">Milk Choice</label>
+        <select id="milk-choice"></select>
+      </div>
+
+      <div id="bean-group">
+        <label for="bean-choice">Coffee Beans</label>
+        <select id="bean-choice"></select>
+      </div>
+
+      <div id="syrup-group">
+        <label for="syrup-choice">Add Syrup</label>
+        <select id="syrup-choice"></select>
+      </div>
+
+      <!-- Cold Foam Option -->
+      <div id="cold-foam-group" style="display: none;">
+        <label for="cold-foam-choice">Add Cold Foam</label>
+        <select id="cold-foam-choice">
+          <option value="None">No</option>
+          <option value="Cold Foam">Yes</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" onclick="addToCart()">Add to Order</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-notification" onclick="handleToastClick()">Added! See cart down below.</div>
+
+  <script>
+    // -----------------------------------------
+    // MENU CONFIGURATION JSON
+    // Edit this object to add/remove menu items
+    // -----------------------------------------
+    const menuData = {
+      globalOptions: {
+        milks: [
+          { value: "Whole Milk (A2)", name: "Whole Milk", desc: "A2" },
+          { value: "Oatmilk (Califia)", name: "Oatmilk", desc: "Califia Farms" },
+        ],
+        beans: [
+          { value: "Medium Roast (YES PLZ)", name: "Classic", desc: "From YES PLZ" },
+          { value: "Decaf (Chromatic)", name: "Decaf", desc: "From Chromatic" },
+          { value: "Light Roast (Verve)", name: "Classic", desc: "From Verve" },
+        ],
+        syrups: [
+          { value: "Orange Cinnamon Rosemary", name: "Orange Cinnamon Rosemary", desc: "Housemade, citrusy spiced piney" },
+          { value: "Creme Brulee", name: "Creme Brulee", desc: "Housemade, Sticky hard caramel" },
+          { value: "Vanilla", name: "Vanilla", desc: "" },
+        ]
+      },
+      categories: [
+        {
+          category: "Espresso",
+          drinks: [
+            { id: "cappuccino", name: "Cappuccino", desc: "espresso, milk &nbsp; <span class='icon-cup'>6oz</span> <i class='ph ph-fire'></i>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
+            { id: "latte", name: "Latte", desc: "espresso, milk &nbsp; <span class='icon-cup'>10oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: true },
+            { id: "aerocano", name: "Aerocano", desc: "espresso, water &nbsp; <span class='icon-cup'>6oz</span>", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: true, hasTempChoice: true },
+          ]
+        },
+        {
+          category: "Brewed",
+          drinks: [
+            { id: "drip", name: "Drip Coffee", desc: "brewed in the OXO &nbsp; <span class='icon-cup'>10oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
+            { id: "pour-over", name: "Pour Over", desc: "brewed in the Hario &nbsp; <span class='icon-cup'>10oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
+            { id: "iced-earl-grey", name: "Iced Earl Grey", desc: "<span class='icon-cup'>10oz</span> <i class='ph ph-snowflake'></i>", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+          ]
+        },
+      ]
+    };
+
+    // -----------------------------------------
+    // RENDER LOGIC
+    // -----------------------------------------
+    function initMenu() {
+      // 1. Render Drinks
+      const drinksContainer = document.getElementById('drinks-container');
+      const col1 = document.createElement('div');
+      const col2 = document.createElement('div');
+      
+      menuData.categories.forEach((cat, index) => {
+        const catDiv = document.createElement('div');
+        catDiv.innerHTML = `<h3>${cat.category}</h3>`;
+        
+        cat.drinks.forEach(drink => {
+          drink.category = cat.category; 
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'item interactive-item';
+          itemDiv.onclick = () => openModal(drink);
+          itemDiv.innerHTML = `
+            <span class="item-name">${drink.name}</span>
+            <span class="description">${drink.desc}</span>
+          `;
+          catDiv.appendChild(itemDiv);
+        });
+
+        // Split categories roughly into two columns as per the original design
+        if (index < 2) col1.appendChild(catDiv);
+        else col2.appendChild(catDiv);
+      });
+
+      drinksContainer.appendChild(col1);
+      drinksContainer.appendChild(col2);
+
+      // 2. Populate Modal Dropdowns
+      const beanSelect = document.getElementById('bean-choice');
+      menuData.globalOptions.beans.forEach(b => beanSelect.add(new Option(b.value, b.value)));
+
+      const syrupSelect = document.getElementById('syrup-choice');
+      syrupSelect.add(new Option("None", "None"));
+      menuData.globalOptions.syrups.forEach(s => syrupSelect.add(new Option(s.desc ? `${s.value} - ${s.desc}` : s.value, s.value)));
+    }
+
+    // Initialize UI on load
+    document.addEventListener("DOMContentLoaded", initMenu);
+
+    let currentDrinkConfig = null;
+
+    // Event Listeners for dependent dropdowns
+    document.getElementById('temp-choice').addEventListener('change', updateColdFoamVisibility);
+    document.getElementById('cold-foam-choice').addEventListener('change', handleColdFoamChange);
+
+    function updateColdFoamVisibility() {
+      if (!currentDrinkConfig) return;
+      const coldFoamGroup = document.getElementById('cold-foam-group');
+      const coldFoamChoice = document.getElementById('cold-foam-choice');
+      
+      // Rule: Do not allow for Specials
+      if (currentDrinkConfig.category === 'Specials') {
+        coldFoamGroup.style.display = 'none';
+        if (coldFoamChoice.value !== 'None') {
+          coldFoamChoice.value = 'None';
+          handleColdFoamChange(); // Reset syrup forcing
+        }
+        return;
+      }
+
+      // Rule: Only allow for Iced drinks
+      let isIced = false;
+      if (currentDrinkConfig.hasTempChoice) {
+        isIced = document.getElementById('temp-choice').value === 'Iced';
+      } else {
+        isIced = currentDrinkConfig.desc.includes('ph-snowflake');
+      }
+
+      if (isIced) {
+        coldFoamGroup.style.display = 'block';
+      } else {
+        coldFoamGroup.style.display = 'none';
+        if (coldFoamChoice.value !== 'None') {
+          coldFoamChoice.value = 'None';
+          handleColdFoamChange(); // Reset syrup forcing
+        }
+      }
+    }
+
+    // Handle forcing the Syrup selection when Cold Foam is applied
+    function handleColdFoamChange() {
+      const isColdFoam = document.getElementById('cold-foam-choice').value === 'Cold Foam';
+      const syrupGroup = document.getElementById('syrup-group');
+      const syrupChoice = document.getElementById('syrup-choice');
+      const noneOption = syrupChoice.querySelector('option[value="None"]');
+
+      if (isColdFoam) {
+        syrupGroup.style.display = 'block';
+        if (noneOption) noneOption.disabled = true;
+        if (syrupChoice.value === 'None') syrupChoice.value = 'Vanilla';
+      } else {
+        if (noneOption) noneOption.disabled = false;
+        if (!currentDrinkConfig.hasSyrup) {
+          syrupGroup.style.display = 'none';
+          syrupChoice.value = 'None';
+        }
+      }
+    }
+
+    function openModal(drink) {
+      currentDrinkConfig = drink;
+
+      document.getElementById('modal-title').innerText = drink.name;
+      document.getElementById('modal-desc').innerHTML = drink.desc;
+      
+      const tempGroup = document.getElementById('temp-group');
+      if (drink.hasTempChoice) {
+        tempGroup.style.display = 'block';
+        document.getElementById('temp-choice').selectedIndex = 0;
+      } else {
+        tempGroup.style.display = 'none';
+      }
+
+      const milkGroup = document.getElementById('milk-group');
+      const milkSelect = document.getElementById('milk-choice');
+      if (drink.milkType !== 'none') {
+        milkGroup.style.display = 'block';
+        milkSelect.innerHTML = ''; // Clear previous options
+        
+        if (drink.milkType === 'optional') {
+          milkSelect.add(new Option('No Milk', 'None'));
+        }
+        
+        menuData.globalOptions.milks.forEach(m => {
+          milkSelect.add(new Option(m.value, m.value));
+        });
+        
+        milkSelect.value = drink.defaultMilk;
+      } else {
+        milkGroup.style.display = 'none';
+      }
+
+      document.getElementById('bean-group').style.display = drink.hasBeans ? 'block' : 'none';
+      if(drink.hasBeans) document.getElementById('bean-choice').selectedIndex = 0;
+
+      // Reset syrup and cold foam to default states
+      document.getElementById('syrup-group').style.display = drink.hasSyrup ? 'block' : 'none';
+      document.getElementById('syrup-choice').selectedIndex = 0;
+      
+      const noneOption = document.getElementById('syrup-choice').querySelector('option[value="None"]');
+      if (noneOption) noneOption.disabled = false;
+      document.getElementById('cold-foam-choice').value = 'None';
+      
+      updateColdFoamVisibility(); 
+
+      document.getElementById('order-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('order-modal').style.display = 'none';
+    }
+
+    function addToCart() {
+      const temp = document.getElementById('temp-choice').value;
+      const milkSelect = document.getElementById('milk-choice');
+      const milk = milkSelect ? milkSelect.value : 'None';
+      const bean = document.getElementById('bean-choice').value;
+      const syrup = document.getElementById('syrup-choice').value;
+      const coldFoam = document.getElementById('cold-foam-choice').value;
+      
+      const cartSection = document.getElementById('cart-section');
+      const cartItems = document.getElementById('cart-items');
+      
+      cartSection.style.display = 'block';
+
+      let detailsArray = [];
+      if (currentDrinkConfig.hasTempChoice) detailsArray.push(temp);
+      if (currentDrinkConfig.milkType !== 'none' && milk !== 'None') detailsArray.push(milk);
+      
+      // Assumes the first bean in the array is the default (Classic)
+      const defaultBean = menuData.globalOptions.beans[0].value;
+      if (currentDrinkConfig.hasBeans && bean !== defaultBean) detailsArray.push(bean);
+      
+      // Check if any syrup is selected (even if forced by Cold Foam on drinks that don't normally have it)
+      if (syrup !== 'None') detailsArray.push(`Add ${syrup}`);
+
+      if (coldFoam !== 'None') detailsArray.push('Add Cold Foam'); 
+      
+      const detailsText = detailsArray.length > 0 ? `(${detailsArray.join(', ')})` : '';
+
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <div>
+          <strong class="cart-item-name">${currentDrinkConfig.name}</strong>
+          <span class="cart-details">${detailsText}</span>
+        </div>
+        <button onclick="this.parentElement.remove(); checkEmptyCart();" style="background:none; border:none; color:var(--accent); text-decoration:underline; font-size:0.8rem; padding:0; flex:0;">Remove</button>
+      `;
+      
+      cartItems.appendChild(li);
+
+      const toast = document.getElementById('toast-notification');
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+
+      closeModal();
+    }
+
+    function checkEmptyCart() {
+      const cartItems = document.getElementById('cart-items');
+      if (cartItems.children.length === 0) {
+        document.getElementById('cart-section').style.display = 'none';
+      }
+    }
+
+    function copyOrder() {
+      const items = document.querySelectorAll('#cart-items li');
+      let orderText = "Hey! Here is my order:\n\n";
+      
+      items.forEach(item => {
+        const name = item.querySelector('.cart-item-name').innerText;
+        const details = item.querySelector('.cart-details').innerText;
+        orderText += `- ${name} ${details}\n`.trim() + '\n';
+      });
+      
+      navigator.clipboard.writeText(orderText).then(() => {
+        alert('Order copied to clipboard! Send it to the Host.');
+      }).catch(err => {
+        alert('Failed to copy to clipboard. Please copy manually.');
+        console.error('Error copying text: ', err);
+      });
+    }
+
+    function handleToastClick() {
+      // 1. Dismiss the toast immediately
+      document.getElementById('toast-notification').classList.remove('show');
+      
+      // 2. Scroll to the cart section
+      const cartSection = document.getElementById('cart-section');
+      if (cartSection) {
+        cartSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+</body>
+</html>
