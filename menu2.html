@@ -50,7 +50,7 @@
       position: relative; 
       border-radius: 8px;
     }
-    header { text-align: center; margin-bottom: 50px; }
+    header { text-align: center; margin-bottom: 30px; }
     .header-main {
       display: flex;
       align-items: center;
@@ -86,7 +86,7 @@
       display: flex;
       align-items: center;
       gap: 18px;
-      margin-bottom: 25px;
+      margin-bottom: 10px;
     }
     .section-title::before,
     .section-title::after {
@@ -122,7 +122,7 @@
     .interactive-item {
       padding: 12px;
       border-radius: 6px;
-      border: 1px solid var(--accent-light);
+      /*border: 1px solid var(--accent-light);*/
       background: rgba(255, 255, 255, 0.4);
       cursor: pointer;
       transition: all 0.2s ease;
@@ -186,6 +186,7 @@
 
     .drinks {
       display: grid;
+      margin-left:100px;
       /*grid-template-columns: repeat(2, minmax(0, 1fr));*/
       /*gap: 35px;*/
       align-items: start;
@@ -346,7 +347,7 @@
     </header>
 
     <!-- Drinks Section -->
-    <section>
+    <section style="margin-top:0px;">
       <div class="section-title"><h2>Drinks</h2></div>
       <div id="drinks-container" class="drinks">
         <!-- Injected via JSON -->
@@ -361,12 +362,12 @@
     </section>
 
     <!-- About Us Section -->
-    <section>
+    <section style="margin-top:10px;">
       <div class="section-title"><h2>About Us</h2></div>
       <header>
-        <span class="description">Come join us for a cup of coffee!  Scan to see specials, syrups and more.</span>
-        <img width="200" src="dog.webp"/>
-        <img src="qr.webp" alt="QR Code for The Meeple's Cafe Menu">
+        <span class="description">Come join us!  Scan to see <b>specials</b>, <b>syrups</b> and more.</span>
+        <img width="250" src="dog.webp"/>
+        <img width="200" src="qr.webp" alt="QR Code for The Meeple's Cafe Menu">
      </header>
     </section>
   </main>
@@ -444,7 +445,10 @@
         {
           category: "Espresso",
           drinks: [
-            { id: "cappuccino", name: "Cappuccino", desc: "espresso, milk &nbsp; <span class='icon-cup'>6oz</span> <i class='ph ph-fire'></i>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
+            // { id: "cappuccino", name: "Cappuccino", desc: "espresso, milk &nbsp; <span class='icon-cup'>6oz</span> <i class='ph ph-fire'></i>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
+            // { id: "latte", name: "Latte", desc: "espresso, milk &nbsp; <span class='icon-cup'>10oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: true },
+            // { id: "aerocano", name: "Aerocano", desc: "espresso, water &nbsp; <span class='icon-cup'>6oz</span>", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: true, hasTempChoice: true },
+            { id: "cappuccino", name: "Cappuccino", desc: "espresso, milk &nbsp; <span class='icon-cup'>6oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
             { id: "latte", name: "Latte", desc: "espresso, milk &nbsp; <span class='icon-cup'>10oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: true },
             { id: "aerocano", name: "Aerocano", desc: "espresso, water &nbsp; <span class='icon-cup'>6oz</span>", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: true, hasTempChoice: true },
           ]
@@ -454,7 +458,8 @@
           drinks: [
             { id: "drip", name: "Drip Coffee", desc: "brewed in the OXO &nbsp; <span class='icon-cup'>10oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
             { id: "pour-over", name: "Pour Over", desc: "brewed in the Hario &nbsp; <span class='icon-cup'>10oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
-            { id: "iced-earl-grey", name: "Iced Earl Grey", desc: "<span class='icon-cup'>10oz</span> <i class='ph ph-snowflake'></i>", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            // { id: "iced-earl-grey", name: "Iced Earl Grey", desc: "<span class='icon-cup'>10oz</span> <i class='ph ph-snowflake'></i>", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            { id: "iced-earl-grey", name: "Iced Earl Grey", desc: "", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
           ]
         },
       ]
