@@ -120,13 +120,17 @@
     .item { margin: 0 0 18px; }
     
     .interactive-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
       padding: 12px;
       border-radius: 6px;
       /*border: 1px solid var(--accent-light);*/
       background: rgba(255, 255, 255, 0.4);
       cursor: pointer;
       transition: all 0.2s ease;
-      max-width: 400px;
+      /*max-width: 400px;*/
     }
     .interactive-item:hover {
       background: #ffffff;
@@ -139,13 +143,16 @@
       display: block;
       font-size: 1.05rem;
       font-weight: bold;
-      margin-bottom: 2px;
+      margin-bottom: 0;
+      text-align: left;
     }
     .description {
       display: block;
       color: var(--muted);
       font-size: .95rem;
-      padding-left: 16px;
+      padding-left: 0;
+      text-align: right;
+      margin-left: auto;
     }
     
     /* Hot/Cold Phosphor Icon Alignment (Menu & Modal) */
@@ -186,7 +193,7 @@
 
     .drinks {
       display: grid;
-      margin-left:100px;
+      /*margin-left:70px;*/
       /*grid-template-columns: repeat(2, minmax(0, 1fr));*/
       /*gap: 35px;*/
       align-items: start;
@@ -448,18 +455,18 @@
             // { id: "cappuccino", name: "Cappuccino", desc: "espresso, milk &nbsp; <span class='icon-cup'>6oz</span> <i class='ph ph-fire'></i>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
             // { id: "latte", name: "Latte", desc: "espresso, milk &nbsp; <span class='icon-cup'>10oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: true },
             // { id: "aerocano", name: "Aerocano", desc: "espresso, water &nbsp; <span class='icon-cup'>6oz</span>", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: true, hasTempChoice: true },
-            { id: "cappuccino", name: "Cappuccino", desc: "espresso, milk &nbsp; <span class='icon-cup'>6oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
-            { id: "latte", name: "Latte", desc: "espresso, milk &nbsp; <span class='icon-cup'>10oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: true },
-            { id: "aerocano", name: "Aerocano", desc: "espresso, water &nbsp; <span class='icon-cup'>6oz</span>", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: true, hasTempChoice: true },
+            { id: "cappuccino", name: "Cappuccino", desc: ". . . . . . . . . . . . . . . espresso, milk &nbsp; <span class='icon-cup'>6oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: false },
+            { id: "latte", name: "Latte", desc: ". . . . . . . . . . . . . . . . . . . . . espresso, milk &nbsp; <span class='icon-cup'>10oz</span>", milkType: "required", defaultMilk: "Whole Milk (A2)", hasBeans: true, hasSyrup: true, hasTempChoice: true },
+            { id: "aerocano", name: "Aerocano", desc: ". . . . . . . . . . . . . . . . espresso, water &nbsp; <span class='icon-cup'>6oz</span>", milkType: "none", defaultMilk: "", hasBeans: true, hasSyrup: true, hasTempChoice: true },
           ]
         },
         {
           category: "Brewed",
           drinks: [
-            { id: "drip", name: "Drip Coffee", desc: "brewed in the OXO &nbsp; <span class='icon-cup'>10oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
-            { id: "pour-over", name: "Pour Over", desc: "brewed in the Hario &nbsp; <span class='icon-cup'>10oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
+            { id: "drip", name: "Drip Coffee", desc: ". . . . . . . . . . . . brewed in the OXO &nbsp; <span class='icon-cup'>10oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
+            { id: "pour-over", name: "Pour Over", desc: ". . . . . . . . . . . . brewed in the Hario &nbsp; <span class='icon-cup'>10oz</span>", milkType: "optional", defaultMilk: "None", hasBeans: false, hasSyrup: true, hasTempChoice: true },
             // { id: "iced-earl-grey", name: "Iced Earl Grey", desc: "<span class='icon-cup'>10oz</span> <i class='ph ph-snowflake'></i>", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
-            { id: "iced-earl-grey", name: "Iced Earl Grey", desc: "", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
+            { id: "iced-earl-grey", name: "Iced Earl Grey", desc: ". . . . . . . . . . . . . . . . . . . . . . tea &nbsp; <span class='icon-cup'>10oz</span>", milkType: "none", defaultMilk: "", hasBeans: false, hasSyrup: false, hasTempChoice: false },
           ]
         },
       ]
